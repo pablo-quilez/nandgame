@@ -1,0 +1,12 @@
+# Cleaner version
+LOOP:
+A = 0b01
+D = A
+A = 0x7FFF
+*A = D
+A = 0b10
+D = A
+A = 0x7FFF
+*A = D
+A = LOOP
+JMP

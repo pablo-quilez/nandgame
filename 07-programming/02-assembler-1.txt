@@ -1,0 +1,12 @@
+# First attempt
+D = D + 1
+D = D + 1
+LOOP:
+A = 32767
+*A = D
+D = D - 1
+*A = D
+D = D + 1
+*A = D
+A = LOOP
+JMP

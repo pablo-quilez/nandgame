@@ -1,0 +1,46 @@
+#------------------------------
+# Wait until movement finishes
+#------------------------------
+WAITSTOPPED:
+# Turning
+A = 0b01000000000 
+D = A
+A = 0X7FFF
+D = D & *A
+A = WAITSTOPPED
+D; JNE
+# Moving forward
+A = 0b10000000000 
+D = A
+A = 0X7FFF
+D = D & *A
+A = WAITSTOPPED
+D; JNE
+#------------------------------
+# Advance if no obstacle
+#------------------------------
+ADVANCE:
+# Obstacle on front
+A = 0b00100000000
+D = A
+A = 0X7FFF
+D = D & *A
+A = ROTATELEFT
+D; JNE
+# Move forward
+A = 0b00000000100
+D = A
+A = 0X7FFF
+D = D | *A
+*A = D
+A = WAITSTOPPED
+JMP
+#------------------------------
+ROTATELEFT:
+A = 0b00000001000
+D = A
+A = 0X7FFF
+D = D | *A
+*A = D
+A = WAITSTOPPED
+JMP
