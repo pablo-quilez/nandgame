@@ -161,18 +161,26 @@ JMP
 ### Escape Labyrinth
 
 ```
+#------------------------------ 
+# Basically, it waits until the motor stops,
+# then if there is no obstacle, it moves
+# forwards. If there is an obstacle, turns
+# to the left and repeats the process.
+# This algorithm doesn't work if the
+# exit is in the middle of the map
+# (island), but this is not the case.
 #------------------------------
 # Wait until movement finishes
 #------------------------------
 WAITSTOPPED:
-# Turning
+# Check if turning
 A = 0b01000000000 
 D = A
 A = 0X7FFF
 D = D & *A
 A = WAITSTOPPED
 D; JNE
-# Moving forward
+# Check if moving forwards
 A = 0b10000000000 
 D = A
 A = 0X7FFF
@@ -183,14 +191,14 @@ D; JNE
 # Advance if no obstacle
 #------------------------------
 ADVANCE:
-# Obstacle on front
+# Check if obstacle on front
 A = 0b00100000000
 D = A
 A = 0X7FFF
 D = D & *A
 A = ROTATELEFT
 D; JNE
-# Move forward
+# No obstacle, move forwards
 A = 0b00000000100
 D = A
 A = 0X7FFF
@@ -198,6 +206,8 @@ D = D | *A
 *A = D
 A = WAITSTOPPED
 JMP
+#------------------------------
+# Rotate to the lest if obstacle
 #------------------------------
 ROTATELEFT:
 A = 0b00000001000
